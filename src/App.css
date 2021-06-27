@@ -173,9 +173,11 @@ img {
 .movie__card {
   display: flex;
   border: 1px solid black;
+  min-width: 250px;
 }
 
 .poster {
+  min-width: 250px;
   height: 400px;
   margin-right: 60px;
 }

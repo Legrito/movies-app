@@ -1,6 +1,6 @@
 import './App.css';
 // import { Component } from 'react';
-import { Route, NavLink, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { Header } from './components/Header';
 import HomeView from './views/HomeView';
 import SearchMovies from './views/SearchMovies';
