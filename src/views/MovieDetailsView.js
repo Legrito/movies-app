@@ -2,9 +2,7 @@ import { Component } from "react";
 import axios from "axios";
 import MovieAddInfo from '../components/MovieAddInfo/MovieAddInfo';
 import { MovieLoader } from '../components/Loader';
-
-const API_KEY = 'a9bb7243d3a710c2ab16652dca81dddb';
-const BASE_URL = `https://api.themoviedb.org/3/`;
+import { getMoviesById } from "../services/ApiServices";
 
 class MovieDetailsView extends Component {
     state = {
@@ -17,7 +15,7 @@ class MovieDetailsView extends Component {
         try {
             const {movieId} = this.props.match.params;
             this.setState({loader: true, });
-            const response = await axios.get(`${BASE_URL}movie/${movieId}?api_key=${API_KEY}`);
+            const response = await getMoviesById(movieId);
             this.setState({movie: response.data, genres: response.data.genres});
         } catch(err) {
             console.log(err.message);

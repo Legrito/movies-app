@@ -1,9 +1,6 @@
 import { Component } from "react";
-import axios from "axios";
 import { MovieLoader } from '../components/Loader';
-
-const API_KEY = 'a9bb7243d3a710c2ab16652dca81dddb';
-const BASE_URL = `https://api.themoviedb.org/3/`;
+import { getMovieAdditionalInfo } from "../services/ApiServices";
 
 class ReviewsView extends Component {
     
@@ -15,7 +12,7 @@ class ReviewsView extends Component {
     async componentDidMount() {
         try{
             this.setState({loader: true, });
-            const response = await axios.get(`${BASE_URL}movie/${this.props.movieId}/reviews?api_key=${API_KEY}`);
+            const response = await getMovieAdditionalInfo(this.props.movieId, 'reviews');
             this.setState({reviews: response.data.results});
             window.scrollBy({
                 top: 400,

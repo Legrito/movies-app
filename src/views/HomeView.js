@@ -1,10 +1,8 @@
 import { Component } from 'react';
-import axios from 'axios';
 import MoviesList from '../components/MoviesList/MoviesList';
 import { MovieLoader } from '../components/Loader';
+import { getMovieTrends } from '../services/ApiServices';
 
-const API_KEY = 'a9bb7243d3a710c2ab16652dca81dddb';
-const BASE_URL = `https://api.themoviedb.org/3/trending/`;
 class HomeView extends Component {
     state = {
         movies: [],
@@ -14,7 +12,7 @@ class HomeView extends Component {
     async componentDidMount() {
         try {
             this.setState({loader: true, });
-            const response = await axios.get(`${BASE_URL}movie/day?api_key=${API_KEY}`);        
+            const response = await getMovieTrends('day');       
             this.setState({movies: response.data.results} );
         } catch(err) {
             console.log(err.messsage);

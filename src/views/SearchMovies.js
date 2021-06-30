@@ -1,11 +1,8 @@
 import { Component } from "react";
 import { NavLink, withRouter } from "react-router-dom";
-import axios from "axios";
 import MoviesList from '../components/MoviesList/MoviesList';
 import { MovieLoader } from '../components/Loader';
-
-const API_KEY = 'a9bb7243d3a710c2ab16652dca81dddb';
-const BASE_URL = `https://api.themoviedb.org/3/`;
+import { getMoviesByQuery } from "../services/ApiServices";
 
 const queryString = require('query-string');
 
@@ -23,7 +20,7 @@ class SearchMovies extends Component {
     
         if (parsed.query) {
           this.setState({loader: true, });
-          axios.get(`${BASE_URL}search/movie?api_key=${API_KEY}&query=${parsed.query}`)
+          getMoviesByQuery(parsed.query)
           .then(resp => {
             if(resp.data.results.length === 0) {
                 this.setState({searchFailed: true});
@@ -42,7 +39,7 @@ class SearchMovies extends Component {
     onClick = (e) => {
         e.preventDefault();
         this.setState({loader: true, });
-        axios.get(`${BASE_URL}search/movie?api_key=${API_KEY}&query=${this.state.value}`)
+        getMoviesByQuery(this.state.value)
         .then(resp => {
             this.props.history.push({
                 pathname: this.props.location.pathname,

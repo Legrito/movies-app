@@ -1,9 +1,7 @@
 import { Component } from "react";
-import axios from "axios";
 import { MovieLoader } from '../components/Loader';
+import { getMovieAdditionalInfo } from "../services/ApiServices";
 
-const API_KEY = 'a9bb7243d3a710c2ab16652dca81dddb';
-const BASE_URL = `https://api.themoviedb.org/3/`;
 
 class CastView extends Component {
     
@@ -15,7 +13,7 @@ class CastView extends Component {
     async componentDidMount() {
         try{
             this.setState({loader: true, });
-            const response = await axios.get(`${BASE_URL}movie/${this.props.movieId}/credits?api_key=${API_KEY}`);
+            const response = await getMovieAdditionalInfo(this.props.movieId, 'credits');
             const filteredImg = response.data.cast.filter(actor => actor.profile_path);
             this.setState({cast: filteredImg});
             window.scrollBy({
