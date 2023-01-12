@@ -1,6 +1,6 @@
 import './App.css';
 import { Suspense, lazy } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { Header } from './components/Header';
 import { MovieLoader } from './components/Loader';
 import { routes } from './services/routes';
@@ -15,12 +15,12 @@ export const App = () => (
   <>
     <Header />
     <Suspense fallback={<MovieLoader />}>
-    <Switch>
-    <Route exact path={routes.home} component={HomeView} />
+    <Routes>
+    <Route exact path={routes.home} component={HomeView}/>
     <Route path={routes.movie} component={MovieDetailsView} />
     <Route path={routes.search} component={SearchMovies} />
     <Route component={NotFoundView} />
-    </Switch>
+    </Routes>
     </Suspense>
   </>
 );

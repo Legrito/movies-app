@@ -1,9 +1,10 @@
-import { NavLink, Switch, Route, withRouter } from "react-router-dom";
+import { NavLink, Routes, Route, useLocation } from "react-router-dom";
 import CastView from '../../views/CastView';
 import ReviewsView from '../../views/ReviewsView';
 import { routes } from "../../services/routes";
 
-const MovieAddInfo = ({movieId, location}) => {
+const MovieAddInfo = ({ movieId }) => {
+    const location = useLocation();
     return (
         <>
         <div>
@@ -22,14 +23,14 @@ const MovieAddInfo = ({movieId, location}) => {
                      className="MovieLink additional__link" >Reviews</NavLink>
         </div>
         <div className="additional__movies__info">
-        <Switch>
+        <Routes>
         <Route path={routes.cast} component={() => <CastView movieId={movieId} />} />
         <Route path={routes.rewiews} component={() => <ReviewsView movieId={movieId} />} />
-        </Switch>
+        </Routes>
         </div>
         </>
     )
 }
 
-export default withRouter(MovieAddInfo);
+export default MovieAddInfo;
 
