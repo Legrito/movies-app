@@ -10,19 +10,19 @@ import SearchForm from './SearchForm';
 const queryString = require('query-string');
 
 const SeachMoviesFunc = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const parsed = queryString.parse(location.search);
+
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
     const [isShowFilters, setIsShowFilters] = useState(false);
     const [movies, setMovies] = useState([]);
     const [filteredMovies, setFilteredMovies] = useState([]);
-    const [query, setQuery] = useState('');
-
-    const location = useLocation();
-    const navigate = useNavigate();
+    const [query, setQuery] = useState(parsed.query);
 
 
     useEffect(() => {
-        const parsed = queryString.parse(location.search);
     
         if (parsed.query) {
           setIsLoading(true);
