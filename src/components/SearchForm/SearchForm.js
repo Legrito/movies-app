@@ -1,4 +1,4 @@
-const SearchForm = ({ value, onChange, onSubmit}) => {
+export const SearchForm = ({ value, onChange, onSubmit}) => {
     return (
         <form onSubmit={onSubmit}>
                 <input value={value} onChange={onChange} className="search__input" />
@@ -6,5 +6,3 @@ const SearchForm = ({ value, onChange, onSubmit}) => {
         </form>
     )
 };
-
-export default SearchForm;
