@@ -4,7 +4,7 @@ export const Header = () => {
     return (
         <ul className="header__nav">
       <li>
-        <NavLink exact to="/" className={({ isActive }) => `NavLink ${isActive ? "NavLink--active" : ""}`} >Home</NavLink>
+        <NavLink end to="/" className={({ isActive }) => `NavLink ${isActive ? "NavLink--active" : ""}`} >Home</NavLink>
       </li>
       <li>
         <NavLink to="/movies" className={({ isActive }) => `NavLink ${isActive ? "NavLink--active" : ""}`}>Movies</NavLink>
