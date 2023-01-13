@@ -23,7 +23,6 @@ const SeachMoviesFunc = () => {
 
     useEffect(() => {
         const parsed = queryString.parse(location.search);
-        console.log(parsed.query);
     
         if (parsed.query) {
           setIsLoading(true);
@@ -35,26 +34,26 @@ const SeachMoviesFunc = () => {
                 return;
             }
             setIsShowFilters(true);
+            setIsLoading(false);
             setMovies(resp.data.results);
             });   
         }
     }, []);
 
     const onChange = (e) => {
-        console.log(e.currentTarget.value);
         setQuery(e.currentTarget.value);
     };
 
     const onClick = (e) => {
         e.preventDefault();
         setIsLoading(true);
+        setFilteredMovies([]);
         getMoviesByQuery(query)
         .then(resp => {
             navigate({
                 pathname: location.pathname,
                 search: `query=${query}`,
               });
-            console.log(resp.data.results);
             if(resp.data.results.length === 0) {
                 setIsError(true);
                 return;
@@ -63,7 +62,18 @@ const SeachMoviesFunc = () => {
             setMovies(resp.data.results);
             setIsLoading(false);
         });
-    }
+    };
+
+    const filterByGenre = (e) => {
+        e.preventDefault();
+        if(movies.length === 0) {
+            setIsShowFilters(false);
+            return;
+        }
+
+        const filteredByGenre = movies.filter(movie => movie.genre_ids.includes(+e.target.id));
+        setFilteredMovies(filteredByGenre);
+    };
 
     return (
     <>
@@ -71,11 +81,10 @@ const SeachMoviesFunc = () => {
         <section className="search__section">
             <SearchForm value={query} onChange={onChange} onSubmit={onClick}/>
             {isError && <p>Nothing is found...</p>}
-            {isShowFilters && <GenresFilter onClick={this.filterByGenre} />}
+            {isShowFilters && <GenresFilter onClick={filterByGenre} />}
             {/* { !searchFailed && < GenresFilter onClick={this.filterByGenre} />} */}
             {isLoading ? <MovieLoader />
-                : <MoviesList movies={movies} />}
-            {filteredMovies.length > 0 && <MoviesList movies={filteredMovies} />}
+                : <MoviesList movies={filteredMovies.length > 0 ? filteredMovies : movies} />}
         </section></>
     );
 };
