@@ -1,8 +1,7 @@
 export const routes = {
     home: '/',
     search: '/movies',
-    movie: '/movies/:movieId',
-    cast: '/movies/:movieId/cast',
-    rewiews: '/movies/:movieId/reviews',
-    
+    movie: '/movies/:movieId/*',
+    cast: 'cast',
+    rewiews: 'reviews',
 }

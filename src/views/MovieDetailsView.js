@@ -1,44 +1,49 @@
-import { Component } from "react";
+import { Component, useEffect } from "react";
 import axios from "axios";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MovieAddInfo from '../components/MovieAddInfo/MovieAddInfo';
 import { MovieLoader } from '../components/Loader';
 import { getMoviesById } from "../services/ApiServices";
+import { useState } from "react/cjs/react.development";
 
-class MovieDetailsView extends Component {
-    state = {
-        movie: {},
-        genres: [],
-        loader: false,
-    }
+const MovieDetailsView = ({ children }) => {
+    const [movie, setMovie] = useState('');
+    const [genres, setGenres] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
-    async componentDidMount() {
+    const date = new Date(movie.release_date);
+    const year = date.getFullYear();
+    const score = movie.vote_average * 10;
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { movieId } = useParams();
+
+    useEffect(async () => {
         try {
-            const {movieId} = this.props.match.params;
-            this.setState({loader: true, });
+            setIsLoading(true);
             const response = await getMoviesById(movieId);
-            this.setState({movie: response.data, genres: response.data.genres});
+            setMovie(response.data);
+            setGenres(response.data.genres);
         } catch(err) {
             console.log(err.message);
         } finally {
-            this.setState({loader: false, });
+            setIsLoading(false);
         }
-    }
+    }, []);
 
-    handleGoBack = () => {        
-        const { location, history} = this.props;
-        history.push(location?.state?.from || '/');
+    const handleGoBack = () => {
+        // history.push(location?.state?.from || '/');
+        navigate(-1);
+        
+    };
 
-    }
+    console.log(children);
 
-    render() {
-        const { movie, genres, loader } = this.state;
-        const date = new Date(movie.release_date);
-        const year = date.getFullYear();
-        const score = movie.vote_average * 10;
-        return (
-            <section className="movie__section">
-            <button type="button" className="button--go-back" onClick={this.handleGoBack} > &#8592; Go back</button>
-            {loader ? <MovieLoader /> 
+    return (
+        <section className="movie__section">
+            <button type="button" className="button--go-back" onClick={handleGoBack} > &#8592; Go back</button>
+            {isLoading ? <MovieLoader /> 
             : <div className="movie__card">
                 <img src={`https://image.tmdb.org/t/p/original${movie.poster_path}`} className="poster" alt={movie.tagline} />
                 <div>
@@ -55,10 +60,11 @@ class MovieDetailsView extends Component {
                 </div>
             </div>}
             
-            <MovieAddInfo movieId={movie.id} />
-            </section>
-        )
-    }
-}
+            <MovieAddInfo movieId={movieId}>
+                {children}
+            </MovieAddInfo>
+        </section>
+    )
+};
 
 export default MovieDetailsView;

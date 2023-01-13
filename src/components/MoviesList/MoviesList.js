@@ -1,7 +1,8 @@
-import { NavLink, withRouter } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 //import { GenresFilter } from '../GenresFilter';
 
-const MoviesList = ( { movies, location, genres}) => {
+const MoviesList = ( { movies, genres }) => {
+    const location = useLocation();
     return (
         <>
         {/* <GenresFilter /> */}
@@ -23,4 +24,4 @@ const MoviesList = ( { movies, location, genres}) => {
     )
 }
 
-export default withRouter(MoviesList);
+export default MoviesList;

@@ -1,96 +1,97 @@
-import { Component } from "react";
-import { withRouter } from "react-router-dom";
+
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import MoviesList from '../components/MoviesList/MoviesList';
 import { MovieLoader } from '../components/Loader';
 import { getMoviesByQuery } from '../services/ApiServices';
 import { GenresFilter } from '../components/GenresFilter';
-
-
+import { SearchForm } from '../components/SearchForm';
 
 const queryString = require('query-string');
 
-class SearchMovies extends Component {
-    state = {
-        value: '',
-        findedMovies: [],
-        filteredMovies: [],
-        showFilter: false,
-        searchFailed: false,
-        loader: false,
-    }
+const SearchMovies = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const parsed = queryString.parse(location.search);
 
-    componentDidMount() {
-        const parsed = queryString.parse(this.props.location.search);
-        console.log(parsed.query);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
+    const [movies, setMovies] = useState([]);
+    const [filteredMovies, setFilteredMovies] = useState([]);
+    const [query, setQuery] = useState(parsed.query);
+
+
+    useEffect(() => {
     
         if (parsed.query) {
-          this.setState({loader: true, });
+          setIsLoading(true);
+
           getMoviesByQuery(parsed.query)
           .then(resp => {
             if(resp.data.results.length === 0) {
-                this.setState({searchFailed: true});
+                setIsError(true);
+                setMovies([]);
                 return;
             }
-
-            this.setState({searchFailed: false, findedMovies: resp.data.results, loader: false, showFilter: true})});
+            setIsLoading(false);
+            setMovies(resp.data.results);
+            });   
         }
-      }
+    }, []);
 
-    onChange = (e) => {
-        console.log(e.currentTarget.value);
-        this.setState({value: e.currentTarget.value})
-    }
+    const onChange = (e) => {
+        setQuery(e.currentTarget.value);
+    };
 
-    onClick = (e) => {
+    const onClick = (e) => {
         e.preventDefault();
-        this.setState({loader: true, filteredMovies: []});
-        getMoviesByQuery(this.state.value)
-        .then(resp => {
-            this.props.history.push({
-                pathname: this.props.location.pathname,
-                search: `query=${this.state.value}`,
+        setIsLoading(true);
+        setFilteredMovies([]);
+        if(!query) {
+            setIsError(true);
+            navigate({
+                pathname: location.pathname,
+                search: '',
               });
-            console.log(resp.data.results);
-            if(resp.data.results.length === 0) {
-                this.setState({searchFailed: true});
-                return;
-            }
-
-            this.setState({searchFailed: false, findedMovies: resp.data.results, showFilter: true, loader: false})});
-    }
-
-    filterByGenre = (e) => {
-        e.preventDefault();
-        if(this.state.findedMovies.length === 0) {
-            this.setState({showFilter: false});
             return;
         }
-        
-        let a = e.target.id;
-        console.log(a);
-        //console.log( this.state.findedMovies.filter(movie => movie.genre_ids.includes(e.target.id)));
-        const filteredByGenre = this.state.findedMovies.filter(movie => movie.genre_ids.includes(+e.target.id));
-        console.log(filteredByGenre);
-        this.setState({filteredMovies: filteredByGenre, findedMovies: [], showFilter: false});
-    }
+        getMoviesByQuery(query)
+        .then(resp => {
+            navigate({
+                pathname: location.pathname,
+                search: `query=${query}`,
+              });
+            if(resp.data.results.length === 0) {
+                setIsError(true);
+                setMovies([]);
+                setIsLoading(false);
+                return;
+            }
+            setIsError(false);
+            setMovies(resp.data.results);
+            setIsLoading(false);
+        });
+    };
 
-    render() {
-        const { value, findedMovies, filteredMovies, searchFailed, loader, showFilter} = this.state;
-        return ( 
-            <section className="search__section">
-                <form onSubmit={this.onClick}>                    
-                <input value={value} onChange={this.onChange} className="search__input" />
-                <button type="submit" className="search__button" >Search</button>
-                </form>                
-                {searchFailed && <p>Nothing is found...</p> }
-                { showFilter && < GenresFilter onClick={this.filterByGenre} />}
-                {/* { !searchFailed && < GenresFilter onClick={this.filterByGenre} />} */}
-                { loader ? <MovieLoader /> 
-                : <MoviesList movies={findedMovies} />}
-                { filteredMovies.length > 0 && <MoviesList movies={filteredMovies} />}
-            </section>
-        )
-    }
-} 
+    const filterByGenre = (e) => {
+        e.preventDefault();
+        if(movies.length === 0) {
+            return;
+        }
 
-export default withRouter(SearchMovies);
+        const filteredByGenre = movies.filter(movie => movie.genre_ids.includes(+e.target.id));
+        setFilteredMovies(filteredByGenre);
+    };
+
+    return (
+        <section className="search__section">
+            <SearchForm value={query} onChange={onChange} onSubmit={onClick}/>
+            {isError && <p>Nothing is found...</p>}
+            {movies.length > 0 && !isError && <GenresFilter onClick={filterByGenre} />}
+            {isLoading && <MovieLoader />}
+            {!(isLoading && isError) &&<MoviesList movies={filteredMovies.length > 0 ? filteredMovies : movies} />}
+        </section>
+    );
+};
+
+export default SearchMovies;

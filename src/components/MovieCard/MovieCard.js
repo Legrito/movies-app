@@ -1,6 +1,7 @@
-import { NavLink, withRouter } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
-export const MovieCard = ( { movies, location }) => {
+export const MovieCard = ( { movies }) => {
+    const location = useLocation();
     return (
         <>
         <ul className="trend-list">
@@ -35,4 +36,4 @@ export const MovieCard = ( { movies, location }) => {
     )
 }
 
-export default withRouter(MovieCard);
+export default MovieCard;
