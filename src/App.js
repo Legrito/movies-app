@@ -1,6 +1,7 @@
 import './App.css';
 import { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Header } from './components/Header';
 import { MovieLoader } from './components/Loader';
 import { routes } from './services/routes';
@@ -11,9 +12,18 @@ const SearchMovies = lazy(() => import('./views/SearchMovies') /* webpackChunkNa
 const MovieDetailsView = lazy(() => import('./views/MovieDetailsView') /* webpackChunkName: "movie-details-view" */);
 const NotFoundView = lazy(() => import('./views/NotFoundView') /* webpackChunkName: "not-found-view" */);
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+      cacheTime: Infinity
+    }
+  }
+});
+
 
 export const App = () => (
-  <>
+  <QueryClientProvider client={queryClient}>
     <Header />
     <Suspense fallback={<MovieLoader />}>
     <Routes>
@@ -24,7 +34,7 @@ export const App = () => (
     <Route element={<NotFoundView />} />
     </Routes>
     </Suspense>
-  </>
+  </QueryClientProvider>
 );
 
 export default App;
