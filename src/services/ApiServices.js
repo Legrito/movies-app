@@ -11,8 +11,20 @@ export const getMoviesByQuery = (query) => {
     return axios.get(`${BASE_URL}search/movie?api_key=${API_KEY}&query=${query}`);  
 }
 
-export const getMoviesById = (id) => {
-    return axios.get(`${BASE_URL}movie/${id}?api_key=${API_KEY}`);  
+// export const getMoviesById = (id) => {
+//     return axios.get(`${BASE_URL}movie/${id}?api_key=${API_KEY}`);  
+// }
+export const getMoviesById = async ({ queryKey }) => {
+    const id = queryKey[1];
+
+    const apiRes = await axios.get(`${BASE_URL}movie/${id}?api_key=${API_KEY}`);
+   
+    if(!apiRes || apiRes.status !== 200) {
+        throw new Error(`movie/${id} not OK`);
+    } else {
+        return apiRes.data;
+    }
+
 }
 
 
