@@ -1,1 +1,1 @@
-export * from './GenresFilter';
+export { default } from './GenresFilter';
