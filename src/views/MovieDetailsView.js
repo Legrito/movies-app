@@ -1,11 +1,8 @@
-import { Component, useEffect } from "react";
-import axios from "axios";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import MovieAddInfo from '../components/MovieAddInfo/MovieAddInfo';
 import { MovieLoader } from '../components/Loader';
 import { getMoviesById } from "../services/ApiServices";
-import { useState } from "react/cjs/react.development";
 
 const MovieDetailsView = ({ children }) => {
     const navigate = useNavigate();

@@ -35,5 +35,3 @@ export const getMovieByGenre = () => {
 export const getMovieAdditionalInfo = (id, type) => {
     return axios.get(`${BASE_URL}movie/${id}/${type}?api_key=${API_KEY}`);;  
 }
-
-
