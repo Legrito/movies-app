@@ -1,50 +1,52 @@
-import { Component } from "react";
+import { useEffect } from 'react';
+import { useState } from 'react/cjs/react.development';
 import { MovieLoader } from '../components/Loader';
-import { getMovieAdditionalInfo } from "../services/ApiServices";
+import { getMovieAdditionalInfo } from '../services/ApiServices';
 
+const CastView = ({ movieId }) => {
+  const [cast, setCast] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-class CastView extends Component {
-    
-    state = {
-        cast: [],
-        loader: false,
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const response = await getMovieAdditionalInfo(movieId, 'credits');
+        const filteredImg = response.data.cast.filter((actor) => actor.profile_path);
+        setCast(filteredImg);
+        window.scrollBy({
+          top: 400,
+          behavior: 'smooth'
+        });
+      } catch (err) {
+        console.log(err.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    async componentDidMount() {
-        try{
-            this.setState({loader: true, });
-            const response = await getMovieAdditionalInfo(this.props.movieId, 'credits');
-            const filteredImg = response.data.cast.filter(actor => actor.profile_path);
-            this.setState({cast: filteredImg});
-            window.scrollBy({
-                top: 400,
-                behavior: 'smooth'
-              });
-        } catch(err) {
-            console.log(err.message);
-        } finally {
-            this.setState({loader: false, });
-        }
-        
-    }
+    fetchData();
+  }, [movieId]);
 
-    render() {
-        const { cast, loader } = this.state;
-        return (
-            <>
-            <h2>Actors</h2>
-            { loader && <MovieLoader /> }
-            <ul className="actors__list">
-                    {cast.map(actor => (
-                        <li key={actor.id} className="actor__card">                            
-                        <img src={`https://image.tmdb.org/t/p/original${actor.profile_path}`} className="actor__avatar" alt={actor.name} />
-                        <h3 className="actor__title">{actor.name}</h3>
-                        </li>
-                    ))}
-                </ul>
-            </>
-        )
-    }
-}
+  return (
+    <>
+      <h2>Actors</h2>
+      {isLoading && <MovieLoader />}
+      <ul className="actors__list">
+        {cast.length === 0 && "No actors found"}
+        {cast.map((actor) => (
+          <li key={actor.id} className="actor__card">
+            <img
+              src={`https://image.tmdb.org/t/p/original${actor.profile_path}`}
+              className="actor__avatar"
+              alt={actor.name}
+            />
+            <h3 className="actor__title">{actor.name}</h3>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+};
 
 export default CastView;

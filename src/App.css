@@ -1,3 +1,9 @@
+:root {
+  --primary-color: #450000;
+  --secondary-color: #24a9a9;
+  --accent-color: #ffbda4;
+}
+
 body,
 * {
   font-family: "Noto Sans JP", sans-serif;
@@ -57,7 +63,7 @@ img {
 }
 
 .App-link {
-  color: #61dafb;
+  color: var(--secondary-color);
 }
 
 @keyframes App-logo-spin {
@@ -71,11 +77,11 @@ img {
 
 .NavLink {
   text-decoration: none;
-  color: rgb(255, 189, 164);
+  color: var(--accent-color);
 }
 
 .NavLink--active {
-  color: #29ffff;
+  color: var(--secondary-color);
   text-decoration: underline;
 }
 
@@ -85,10 +91,11 @@ img {
   padding-bottom: 20px;
   padding-left: 60px;
   display: flex;
+  align-items: center;
   width: 100%;
   height: 80px;
-  background-color: #ff3a3a;
-  border-bottom: 5px solid #ffbda4;
+  background-color: var(--primary-color);
+  border-bottom: 5px solid var(--accent-color);
 }
 
 .header__nav li {
@@ -100,6 +107,7 @@ img {
   margin: 0;
   padding: 60px;
 }
+
 
 .trend__title {
   margin: 0 auto;
@@ -120,7 +128,7 @@ img {
 }
 
 .MovieLink:hover {
-  color: #ff3a3a;
+  color: var(--primary-color);
   cursor: pointer;
 }
 
@@ -137,31 +145,37 @@ img {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  width: 500px;
+  max-width: 800px;
+  width: 100%;
+  margin-right: 110px;
   margin-bottom: 30px;
 }
 
 .genres-button {
   margin-bottom: 5px;
-  background-color: #ffbda4;
-  color: #ff3a3a;
+  background-color: var(--accent-color);
+  color: var(--primary-color);
   border: none;
 }
 
+.genres-button.genres-button--active {
+  background-color: var(--secondary-color);
+}
+
 .genres-button:hover {
-  background-color: #29ffff;
+  background-color: var(--secondary-color);
 }
 
 .genres-button:active {
-  background-color: #ff3a3a;
-  color: #ffbda4;
+  background-color: var(--primary-color);
+  color: var(--accent-color);
 }
 /* .genres-button:hover {
-  background-color: #ff3a3a;
+  background-color: var(--primary-color);
 }
 
 .genres-button:active {
-  background-color: #29ffff;
+  background-color: #var(--secondary-color);
 } */
 
 .search__section form {
@@ -171,16 +185,17 @@ img {
 }
 
 .search__input {
-  width: 400px;
-  height: 30px;
+  width: 100%;
+  max-width: 800px;
+  height: 40px;
   margin: 0;
   padding: 5px;
-  border: 3px solid rgb(255, 58, 58);
+  border: 3px solid var(--primary-color);
   box-sizing: border-box;
 }
 
 .search__input:focus {
-  outline-color: rgb(255, 58, 58);
+  outline-color: var(--primary-color);
 }
 
 .search__button {
@@ -191,15 +206,16 @@ img {
   margin-left: 10px;
   padding: 0;
   font-size: 22px;
-  height: 30px;
+  height: 40px;
   width: 100px;
-  background-color: rgb(255, 58, 58);
+  min-width: 100px;
+  background-color: var(--primary-color);
   border: none;
-  color: #ffbda4;
+  color: var(--accent-color);
 }
 
 .search__button:hover {
-  color: rgb(41, 255, 255);
+  color: var(--secondary-color);
 }
 
 .movie__section {
@@ -259,7 +275,7 @@ img {
 
 .button--go-back:hover {
   cursor: pointer;
-  color: rgb(255, 189, 164);
+  color: var(--accent-color);
 }
 
 .trend-list {
@@ -300,7 +316,7 @@ img {
   z-index: 10;
   height: 200px;
   width: 100%;
-  background-color: #ffbca4;
+  background-color: var(--accent-color);
   opacity: 0.3;
   transition: all 0.5s ease-in-out;
   overflow: hidden;
@@ -309,7 +325,7 @@ img {
 
 .movie-card-preview:hover > .movie-card-preview-descr {
   top: 200px;
-  background-color: #29ffff;
+  background-color: var(--secondary-color);
   opacity: 0.9;
 }
 
@@ -337,12 +353,13 @@ img {
   align-items: center;
   justify-content: center;
   margin: 25px auto;
-  padding: 5px 20px;
-  font-size: 22px;
-  height: 30px;
-  background-color: rgb(255, 58, 58);
+  padding: 5px;
+  font-size: 18px;
+  height: 40px;
+  width: 120px;
+  background-color: var(--primary-color);
   border: none;
-  color: #ffbda4;
+  color: var(--accent-color);
   z-index: 1000;
   transition: all 0.3s ease-in-out;
 }
@@ -374,19 +391,38 @@ img {
 }
 
 .load__button:hover {
-  color: rgb(41, 255, 255);
+  color: var(--secondary-color);
 }
 
 .load__button:hover::after {
   z-index: -2;
-  border: 2px solid rgb(41, 255, 255);
+  border: 2px solid var(--secondary-color);
   transform: scale(1);
   opacity: 1;
 }
 
 .load__button:hover::before {
   z-index: -2;
-  border: 2px solid rgb(41, 255, 255);
+  border: 2px solid var(--secondary-color);
   transform: scale(1);
   opacity: 1;
+}
+
+@media only screen and (max-width: 700px) {
+  .trend__section {
+    padding: 60px 20px;
+    margin: 0 auto;
+  }
+
+  .trend__section > .trend-list {
+    justify-content: center;
+  }
+
+  .trend__title {
+    text-align: center;
+  }
+
+  .search__section {
+    padding: 60px 20px;
+  }
 }

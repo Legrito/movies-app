@@ -1,7 +1,9 @@
+@import './variables.scss';
+
 .NavLink {
-  color: aqua;
+  color: $primary-color;
 }
 
 .NavLink--active {
-  color: coral;
+  color: $secondary-color;
 }

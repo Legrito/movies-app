@@ -1,61 +1,42 @@
-import { Component, NavLink } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { LoadMore } from '../components/LoadMore/LoadMore';
-import { MovieCard } from '../components/MovieCard/MovieCard';
+import MovieCard from '../components/MovieCard/MovieCard';
+import Timer from '../components/Timer';
 import { MovieLoader } from '../components/Loader';
 import { getMovieTrends } from '../services/ApiServices';
 
-
-
-class HomeView extends Component {
-    state = {
-        movies: [],
-        loader: false,
-        page: 1,
+const HomeView = () => {
+  const { data, isLoading, error, isError, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
+    ['movies'],
+    getMovieTrends,
+    {
+      getNextPageParam: (lastPage) => lastPage.nextPage
     }
+  );
 
-    async componentDidMount() {
-        try {
-            this.setState({loader: true, });
-            const response = await getMovieTrends('day', this.state.page);       
-            this.setState({movies: response.data.results} );
-        } catch(err) {
-            console.log(err.messsage);
-        } finally {
-            this.setState({loader: false, });
-        }        
-    }
+  if (isLoading) {
+    return <MovieLoader />;
+  }
 
-    onLoadMore = () => {
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
 
-        this.setState({loader: true, });
-        getMovieTrends('day', this.state.page + 1)
-        .then(response => {
-            this.setState((prevState) => ({movies: [...prevState.movies, ...response.data.results],
-                page: prevState.page + 1})
-        )})
-        .catch(err => console.log(err))
-        .finally(() => {
-            this.setState({loader: false, })
-            window.scrollTo({
-                top: document.querySelector('.trend-list').scrollHeight,
-                behavior: 'smooth',
-              });
-        })
-    }
-
-    render() {
-        return (
-            <section className="trend__section">
-                <h1 className="trend__title">Trending today</h1>
-                {/* { this.state.loader ? <MovieLoader /> 
-                : <MoviesList movies={this.state.movies} /> } */}
-                { this.state.loader ? <MovieLoader /> 
-                : <MovieCard movies={this.state.movies} /> }
-                {this.state.movies.length > 0 && <LoadMore onClick={this.onLoadMore} />}
-            </section>
-            
-         )
-    }
+  return (
+    <>
+      <Timer />
+      <section className="trend__section">
+        <h1 className="trend__title">Trending today</h1>
+        <ul className="trend-list">
+          {data.pages.map((page) => (
+            <MovieCard movies={page.results} key={page.nextPage} />
+          ))}
+        </ul>
+        {isFetching && <span>Data is loading...</span>}
+        <LoadMore onClick={() => fetchNextPage()} isDisabled={!hasNextPage} />
+      </section>
+    </>
+  );
 };
 
 export default HomeView;

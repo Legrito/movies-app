@@ -1,6 +1,11 @@
+export const LoadMore = ({ onClick, isDisabled }) => {
+  if (isDisabled) {
+    return null;
+  }
 
-export const LoadMore = ({onClick}) =>{
-    return (
-        <button type="button" className="load__button" onClick={onClick}>See more</button>
-    )
-}
+  return (
+    <button type="button" className="load__button" onClick={onClick}>
+      See more
+    </button>
+  );
+};
