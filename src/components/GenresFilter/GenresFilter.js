@@ -22,16 +22,20 @@ let genres = [
   { id: 37, name: 'Western' }
 ];
 
-const GenresFilter = ({ onClick }) => {
-  return (
-    <div className="genres-filter">
-      {genres.map((genre) => (
-        <button className="genres-button" type="button" id={genre['id']} key={genre['id']} onClick={onClick}>
-          {genre['name']}
-        </button>
-      ))}
-    </div>
-  );
-};
+const GenresFilter = ({ onClick, activeGenre }) => (
+  <div className="genres-filter">
+    {genres.map((genre) => (
+      <button
+        className={`${+activeGenre === +genre['id'] ? 'genres-button genres-button--active' : 'genres-button'}`}
+        type="button"
+        id={genre['id']}
+        key={genre['id']}
+        onClick={onClick}
+      >
+        {genre['name']}
+      </button>
+    ))}
+  </div>
+);
 
 export default GenresFilter;

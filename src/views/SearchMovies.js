@@ -17,6 +17,7 @@ const SearchMovies = () => {
   const [isError, setIsError] = useState(false);
   const [movies, setMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
+  const [activeGenre, setActiveGenre] = useState('');
   const [query, setQuery] = useState(parsed.query);
 
   useEffect(() => {
@@ -43,6 +44,7 @@ const SearchMovies = () => {
     e.preventDefault();
     setIsLoading(true);
     setFilteredMovies([]);
+    setActiveGenre('');
     if (!query) {
       setIsError(true);
       navigate({
@@ -70,11 +72,14 @@ const SearchMovies = () => {
 
   const filterByGenre = (e) => {
     e.preventDefault();
+    console.log('Filter');
     if (movies.length === 0) {
       return;
     }
-
+    
     const filteredByGenre = movies.filter((movie) => movie.genre_ids.includes(+e.target.id));
+    setActiveGenre(e.target.id);
+
     setFilteredMovies(filteredByGenre);
   };
 
@@ -82,7 +87,7 @@ const SearchMovies = () => {
     <section className="search__section">
       <SearchForm value={query} onChange={onChange} onSubmit={onClick} />
       {isError && <p>Nothing is found...</p>}
-      {movies.length > 0 && !isError && <GenresFilter onClick={filterByGenre} />}
+      {movies.length > 0 && !isError && <GenresFilter activeGenre={activeGenre} onClick={filterByGenre} />}
       {isLoading && <MovieLoader />}
       {!(isLoading && isError) && <MoviesList movies={filteredMovies.length > 0 ? filteredMovies : movies} />}
     </section>
