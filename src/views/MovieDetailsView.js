@@ -8,13 +8,15 @@ import { getMoviesById } from '../services/ApiServices';
 const MovieDetailsView = ({ children }) => {
   const navigate = useNavigate();
   const { movieId } = useParams();
-  const response = useQuery(['movie', movieId], getMoviesById);
+  const { isLoading, isError, data: movie, error } = useQuery(['movie', movieId], getMoviesById);
 
-  if (response.isLoading || !response) {
+  if (isLoading) {
     return <MovieLoader />;
   }
 
-  const movie = response?.data;
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
 
   // const [movie, setMovie] = useState(results.data);
   // const [genres, setGenres] = useState(results.data.genres);

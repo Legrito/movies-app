@@ -1,55 +1,41 @@
-import { useEffect, useState } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { LoadMore } from '../components/LoadMore/LoadMore';
 import MovieCard from '../components/MovieCard/MovieCard';
+import Timer from '../components/Timer';
 import { MovieLoader } from '../components/Loader';
 import { getMovieTrends } from '../services/ApiServices';
 
 const HomeView = () => {
-  const [movies, setMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const { data, isLoading, error, isError, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
+    ['movies'],
+    getMovieTrends,
+    {
+      getNextPageParam: (lastPage) => lastPage.nextPage
+    }
+  );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await getMovieTrends('day', page);
-        setMovies(response.data.results);
-      } catch (err) {
-        console.log(err.messsage);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  if (isLoading) {
+    return <MovieLoader />;
+  }
 
-    fetchData();
-  }, []);
-
-  const onLoadMore = () => {
-    setIsLoading(true);
-    getMovieTrends('day', page + 1)
-      .then((response) => {
-        setMovies(prevState => [...prevState, ...response.data.results]);
-        setPage(prevState => prevState + 1);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setIsLoading(false);
-        window.scrollTo({
-          top: document.querySelector('.trend-list').scrollHeight,
-          behavior: 'smooth'
-        });
-      });
-  };
+  if (isError) {
+    return <span>Error: {error.message}</span>;
+  }
 
   return (
-    <section className="trend__section">
-      <h1 className="trend__title">Trending today</h1>
-      {/* { this.state.loader ? <MovieLoader />
-                : <MoviesList movies={this.state.movies} /> } */}
-      {isLoading ? <MovieLoader /> : <MovieCard movies={movies} />}
-      {movies.length > 0 && <LoadMore onClick={onLoadMore} />}
-    </section>
+    <>
+      <Timer />
+      <section className="trend__section">
+        <h1 className="trend__title">Trending today</h1>
+        <ul className="trend-list">
+          {data.pages.map((page) => (
+            <MovieCard movies={page.results} key={page.nextPage} />
+          ))}
+        </ul>
+        {isFetching && <span>Data is loading...</span>}
+        <LoadMore onClick={() => fetchNextPage()} isDisabled={!hasNextPage} />
+      </section>
+    </>
   );
 };
 
