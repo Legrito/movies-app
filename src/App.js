@@ -1,10 +1,11 @@
-import './App.css';
 import { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Header from './components/Header';
 import { MovieLoader } from './components/Loader';
 import { routes } from './services/routes';
+
+import './App.css';
 
 const HomeView = lazy(() => import('./views/HomeView') /* webpackChunkName: "home-view" */);
 const SearchMovies = lazy(() => import('./views/SearchMovies') /* webpackChunkName: "search-movies" */);
