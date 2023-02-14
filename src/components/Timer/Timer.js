@@ -25,8 +25,6 @@ const Timer = () => {
       setPopularMovie(data?.results.find((el) => el.popularity === maxRate));
     }
 
-    console.log(popularMovie);
-
     const setTime = () => {
       const time = timeCounter(popularMovie);
       setDays(() => time.days);
@@ -38,7 +36,8 @@ const Timer = () => {
     const intervalId = setInterval(setTime, 1000);
 
     return () => clearInterval(intervalId);
-  });
+  }, [data, popularMovie]);
+
   if (isLoading) {
     return <span>Loading...</span>;
   }

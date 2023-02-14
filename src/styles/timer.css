@@ -1,10 +1,18 @@
 div.timer {
   max-width: 800px;
   height: 300px;
-  background-color: rgba(127, 246, 255, 0.112);
+  background-color: #450000;
   margin: 20px auto 0;
   padding: 20px;
   position: relative;
+}
+
+div.timer h2 {
+  color: #24a9a9;
+}
+
+div.timer h3, div.timer p, div.timer span {
+  color: #ffbda4;
 }
 
 div.timer .poster {
