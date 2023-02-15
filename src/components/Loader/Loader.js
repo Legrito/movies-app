@@ -7,7 +7,7 @@ export const MovieLoader = () => {
     <div className="Loader">
       <Loader
         type="Rings"
-        color="#61dafb"
+        color="#24a9a9"
         height={100}
         width={100}
         timeout={3000} //3 secs

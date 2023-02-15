@@ -3,10 +3,6 @@ import axios from 'axios';
 const API_KEY = 'a9bb7243d3a710c2ab16652dca81dddb';
 const BASE_URL = `https://api.themoviedb.org/3/`;
 
-// export const getMovieTrends = (period, page) => {
-//   return axios.get(`${BASE_URL}trending/movie/${period}?api_key=${API_KEY}&page=${page}`);
-// };
-
 export const getUpcoming = async () => {
   const apiRes = await axios.get(`${BASE_URL}movie/upcoming?api_key=${API_KEY}&page=10`);
 
@@ -28,8 +24,16 @@ export const getMovieTrends = async ({ pageParam = 1 }) => {
   }
 };
 
-export const getMoviesByQuery = (query) => {
-  return axios.get(`${BASE_URL}search/movie?api_key=${API_KEY}&query=${query}`);
+export const getMoviesByQuery = async (query) => {
+
+  const apiRes = await axios.get(`${BASE_URL}search/movie?api_key=${API_KEY}&query=${query}`);
+
+  if (!apiRes || apiRes.status !== 200) {
+    throw new Error(`${query} not OK`);
+  } else {
+    console.log(apiRes.data);
+    return apiRes.data;
+  }
 };
 
 // export const getMoviesById = (id) => {

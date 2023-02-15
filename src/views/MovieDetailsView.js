@@ -17,29 +17,11 @@ const MovieDetailsView = ({ children }) => {
     return <span>Error: {error.message}</span>;
   }
 
-  // const [movie, setMovie] = useState(results.data);
-  // const [genres, setGenres] = useState(results.data.genres);
-  // const [isLoading, setIsLoading] = useState(false);
-
   const date = new Date(movie.release_date);
   const year = date.getFullYear();
   const score = movie.vote_average * 10;
 
-  // useEffect(async () => {
-  //     try {
-  //         setIsLoading(true);
-  //         const response = await getMoviesById(movieId);
-  //         setMovie(response.data);
-  //         setGenres(response.data.genres);
-  //     } catch(err) {
-  //         console.log(err.message);
-  //     } finally {
-  //         setIsLoading(false);
-  //     }
-  // }, []);
-
   const handleGoBack = () => {
-    // history.push(location?.state?.from || '/');
     navigate(-1);
   };
 
