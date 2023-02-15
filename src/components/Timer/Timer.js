@@ -50,10 +50,12 @@ const Timer = () => {
     <div className="timer">
       <h2>{popularMovie.title}</h2>
       <h3>Premiere in...</h3>
-      {days !== '00' && <span>{days} days </span>}
-      <span>{hours} : </span>
-      <span>{mins} : </span>
-      <span>{secs}</span>
+      <span>
+        {days !== '00' && <span>{days} days </span>}
+        <span>{hours} : </span>
+        <span>{mins} : </span>
+        <span>{secs}</span>
+      </span>
       <div className='poster'>
         <img src={`https://image.tmdb.org/t/p/original${popularMovie.poster_path}`} alt={popularMovie.title}/>
       </div>
