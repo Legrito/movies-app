@@ -1,4 +1,4 @@
-Movies 🎬
+<h1>Movies 🎬</h1>
 This SPA on a base of TMDB API(https://developers.themoviedb.org/3/getting-started/introduction) alows you to get the full information about the movies.
 
 Features:
