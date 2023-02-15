@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { useEffect } from 'react/cjs/react.development';
 import GenresFilter from '../GenresFilter/GenresFilter';
 
 const MoviesList = ({ moviesData, }) => {
