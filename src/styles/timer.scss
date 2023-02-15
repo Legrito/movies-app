@@ -8,9 +8,27 @@ div {
     margin: 20px auto 0;
     padding: 20px 250px 20px 20px;
     position: relative;
+    overflow: hidden;
+
+    &::before {
+      position: absolute;
+      content: 'Anticipated';
+      width: 220px;
+      height: 20px;
+      font-size: 16px;
+      transform: rotate(45deg);
+      background-color: $accent-color;
+      padding: 0 20px;
+      bottom: 30px;
+      left: -90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
     h2 {
       color: $secondary-color;
+      font-size: 48px;
     }
     
     h3, p, span {
@@ -33,7 +51,7 @@ div {
     }
 
     h3 {
-      font-size: 48px;
+      font-size: 44px;
       margin: 0;
     }
   

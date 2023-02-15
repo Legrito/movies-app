@@ -50,7 +50,7 @@ const Timer = () => {
     <div className="timer">
       <h2>{popularMovie.title}</h2>
       <h3>Premiere in...</h3>
-      <span>{days} days </span>
+      {days !== '00' && <span>{days} days </span>}
       <span>{hours} : </span>
       <span>{mins} : </span>
       <span>{secs}</span>

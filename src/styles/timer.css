@@ -5,10 +5,35 @@ div.timer {
   margin: 20px auto 0;
   padding: 20px 250px 20px 20px;
   position: relative;
+  overflow: hidden;
+}
+
+div.timer::before {
+  position: absolute;
+  content: 'Anticipated';
+  width: 220px;
+  height: 20px;
+  font-size: 16px;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  background-color: #ffbda4;
+  padding: 0 20px;
+  bottom: 30px;
+  left: -90px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 div.timer h2 {
   color: #24a9a9;
+  font-size: 48px;
 }
 
 div.timer h3, div.timer p, div.timer span {
@@ -32,7 +57,7 @@ div.timer .poster img {
 }
 
 div.timer h3 {
-  font-size: 48px;
+  font-size: 44px;
   margin: 0;
 }
 
