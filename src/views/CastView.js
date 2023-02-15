@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useState } from 'react/cjs/react.development';
+import { useEffect, useState } from 'react';
 import { MovieLoader } from '../components/Loader';
 import { getMovieAdditionalInfo } from '../services/ApiServices';
 
