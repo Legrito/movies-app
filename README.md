@@ -7,6 +7,7 @@
 <p>🔎 Search by a movie name</p>
 <p>🗂 Filter search results by genre</p>
 <p>🎭 Page with the movie details with casts and reviews lists</p>
+<p>📱 Responsive design</p>
 
 <h3>Utilised Technologies:</h3>
 <p>✔️ React Router 6</p>
