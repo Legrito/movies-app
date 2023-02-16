@@ -5,6 +5,8 @@ import { timeCounter } from './helpers';
 
 import '../../styles/timer.css';
 
+// TODO Add backup poster if popularMovie.poster_path === null
+
 const Timer = () => {
   const [days, setDays] = useState('00');
   const [hours, setHours] = useState('00');
