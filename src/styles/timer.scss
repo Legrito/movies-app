@@ -1,4 +1,7 @@
 @import './variables.scss';
+.timer-link {
+  text-decoration: none;
+}
 
 div {
   &.timer {
@@ -13,6 +16,7 @@ div {
     &::before {
       position: absolute;
       content: 'Anticipated';
+      color: $primary-color;
       width: 220px;
       height: 20px;
       font-size: 16px;
@@ -44,7 +48,6 @@ div {
       height: 300px;
       overflow: hidden;
       margin-right: 0;
-      // max-width: 250px;
 
       img {
         width: 100%;

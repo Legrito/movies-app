@@ -1,3 +1,7 @@
+.timer-link {
+  text-decoration: none;
+}
+
 div.timer {
   max-width: 800px;
   height: 300px;
@@ -11,6 +15,7 @@ div.timer {
 div.timer::before {
   position: absolute;
   content: 'Anticipated';
+  color: #450000;
   width: 220px;
   height: 20px;
   font-size: 16px;
