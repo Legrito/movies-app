@@ -36,7 +36,9 @@ div.timer h2 {
   font-size: 48px;
 }
 
-div.timer h3, div.timer p, div.timer span {
+div.timer h3,
+div.timer p,
+div.timer span {
   color: #ffbda4;
 }
 
@@ -59,10 +61,25 @@ div.timer .poster img {
 div.timer h3 {
   font-size: 44px;
   margin: 0;
+  text-align: center;
+  width: 100%;
 }
 
 div.timer span {
   font-size: 38px;
+}
+
+div.timer > span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
 }
 
 @media screen and (max-width: 700px) {
