@@ -5,7 +5,6 @@ import { routes } from '../../services/routes';
 
 const MovieAddInfo = ({ movieId, children }) => {
   const location = useLocation();
-  console.log('jvksdv');
 
   return (
     <>
