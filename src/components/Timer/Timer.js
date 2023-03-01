@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getUpcoming } from '../../services/ApiServices';
 import { timeCounter } from './helpers';
+import backupImg from '../../data/image.jpg';
 
 import '../../styles/timer.css';
 
@@ -12,6 +14,10 @@ const Timer = () => {
   const [secs, setSecs] = useState('00');
   const [popularMovie, setPopularMovie] = useState({});
   const { isLoading, isError, data, error } = useQuery(['upcoming'], getUpcoming);
+  const location = useLocation();
+  const imgPath = popularMovie.poster_path
+    ? `https://image.tmdb.org/t/p/original${popularMovie.poster_path}`
+    : backupImg;
 
   useEffect(() => {
     if (data?.results) {
@@ -47,19 +53,29 @@ const Timer = () => {
   }
 
   return (
-    <div className="timer">
-      <h2>{popularMovie.title}</h2>
-      <h3>Premiere in...</h3>
-      <span>
-        {days !== '00' && <span>{days} days </span>}
-        <span>{hours} : </span>
-        <span>{mins} : </span>
-        <span>{secs}</span>
-      </span>
-      <div className='poster'>
-        <img src={`https://image.tmdb.org/t/p/original${popularMovie.poster_path}`} alt={popularMovie.title}/>
+    <Link
+      className="timer-link"
+      to={{
+        pathname: `/movies/${popularMovie.id}`,
+        state: {
+          from: location?.state?.from
+        }
+      }}
+    >
+      <div className="timer">
+        <h2>{popularMovie.title}</h2>
+        <h3>Premiere in...</h3>
+        <span>
+          {days !== '00' && <span>{days} days&nbsp;</span>}
+          <span>{hours} : </span>
+          <span>{mins} : </span>
+          <span>{secs}</span>
+        </span>
+        <div className="poster">
+          <img src={imgPath} alt={popularMovie.title} />
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

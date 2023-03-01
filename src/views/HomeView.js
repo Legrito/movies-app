@@ -4,6 +4,7 @@ import MovieCard from '../components/MovieCard/MovieCard';
 import Timer from '../components/Timer';
 import { MovieLoader } from '../components/Loader';
 import { getMovieTrends } from '../services/ApiServices';
+import { useEffect } from 'react/cjs/react.development';
 
 const HomeView = () => {
   const { data, isLoading, error, isError, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
@@ -14,6 +15,12 @@ const HomeView = () => {
     }
   );
 
+  useEffect(() => {
+    if (data?.pages && data?.pages?.length > 1) {
+      window.scrollBy({ top: 550, behavior: 'smooth' });
+    }
+  }, [data]);
+
   if (isLoading) {
     return <MovieLoader />;
   }
@@ -21,6 +28,10 @@ const HomeView = () => {
   if (isError) {
     return <span>Error: {error.message}</span>;
   }
+
+  const handleLoadMore = () => {
+    fetchNextPage();
+  };
 
   return (
     <>
@@ -33,7 +44,7 @@ const HomeView = () => {
           ))}
         </ul>
         {isFetching && <span>Data is loading...</span>}
-        <LoadMore onClick={() => fetchNextPage()} isDisabled={!hasNextPage} />
+        <LoadMore onClick={handleLoadMore} isDisabled={!hasNextPage} />
       </section>
     </>
   );

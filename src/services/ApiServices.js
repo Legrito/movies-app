@@ -11,7 +11,6 @@ export const getUpcoming = async () => {
   } else {
     return apiRes.data;
   }
-
 };
 
 export const getMovieTrends = async ({ pageParam = 1 }) => {
@@ -25,13 +24,11 @@ export const getMovieTrends = async ({ pageParam = 1 }) => {
 };
 
 export const getMoviesByQuery = async (query) => {
-
   const apiRes = await axios.get(`${BASE_URL}search/movie?api_key=${API_KEY}&query=${query}`);
 
   if (!apiRes || apiRes.status !== 200) {
     throw new Error(`${query} not OK`);
   } else {
-    console.log(apiRes.data);
     return apiRes.data;
   }
 };
