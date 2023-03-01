@@ -1,10 +1,10 @@
+import { useEffect } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { LoadMore } from '../components/LoadMore/LoadMore';
 import MovieCard from '../components/MovieCard/MovieCard';
 import Timer from '../components/Timer';
 import { MovieLoader } from '../components/Loader';
 import { getMovieTrends } from '../services/ApiServices';
-import { useEffect } from 'react/cjs/react.development';
 
 const HomeView = () => {
   const { data, isLoading, error, isError, fetchNextPage, isFetching, hasNextPage } = useInfiniteQuery(
