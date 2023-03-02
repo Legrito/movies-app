@@ -1,6 +1,6 @@
 <h1>Movies 🎬</h1>
 <p>https://legrito-movies.netlify.app/</p>
-<p>This SPA on a base of TMDB API(https://developers.themoviedb.org/3/getting-started/introduction) alows you to get the full information about the movies.</p>
+<p>This SPA on a base of TMDB API(https://developers.themoviedb.org/3/getting-started/introduction) allows you to get the full information about the movies.</p>
 
 <h3>Features:</h3>
 <p>⏳ Bakward timer to the post popular premiere</p>
